@@ -42,3 +42,17 @@
 
 </body>
 </html>
+const commentButton = document.createElement("button");
+commentButton.textContent = "Comment";
+
+commentButton.onclick = function () {
+    const comment = prompt("Enter your comment:");
+
+    if (comment !== null && comment.trim() !== "") {
+        const commentText = document.createElement("span");
+        commentText.textContent = " - Comment: " + comment;
+        li.appendChild(commentText);
+    }
+};
+
+li.appendChild(commentButton);
