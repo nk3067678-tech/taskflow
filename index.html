@@ -1,3 +1,4 @@
+<
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taskflow</title>
 </head>
+
 <body>
 
     <h1>Taskflow</h1>
-<h2>My Tasks</h2>
+    <h2>My Tasks</h2>
+
     <input type="text" id="taskInput" placeholder="Enter a task">
     <button onclick="addTask()">Add Task</button>
 
@@ -25,20 +28,34 @@
 
             const li = document.createElement("li");
             li.textContent = taskText;
-const commentButton = document.createElement("button");
-commentButton.textContent = "Comment";
 
-commentButton.onclick = function () {
-    const comment = prompt("Enter your comment:");
+            // Color button
+            const colorButton = document.createElement("button");
+            colorButton.textContent = "Color";
 
-    if (comment !== null && comment.trim() !== "") {
-        const commentText = document.createElement("span");
-        commentText.textContent = " - Comment: " + comment;
-        li.appendChild(commentText);
-    }
-};
+            colorButton.onclick = function () {
+                li.style.backgroundColor = "lightblue";
+            };
 
-li.appendChild(commentButton);
+            li.appendChild(colorButton);
+
+            // Comment button
+            const commentButton = document.createElement("button");
+            commentButton.textContent = "Comment";
+
+            commentButton.onclick = function () {
+                const comment = prompt("Enter your comment:");
+
+                if (comment !== null && comment.trim() !== "") {
+                    const commentText = document.createElement("span");
+                    commentText.textContent = " - Comment: " + comment;
+                    li.appendChild(commentText);
+                }
+            };
+
+            li.appendChild(commentButton);
+
+            // Delete button
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Delete";
 
@@ -47,6 +64,7 @@ li.appendChild(commentButton);
             };
 
             li.appendChild(deleteButton);
+
             document.getElementById("taskList").appendChild(li);
 
             input.value = "";
@@ -55,17 +73,3 @@ li.appendChild(commentButton);
 
 </body>
 </html>
-const commentButton = document.createElement("button");
-commentButton.textContent = "Comment";
-
-commentButton.onclick = function () {
-    const comment = prompt("Enter your comment:");
-
-    if (comment !== null && comment.trim() !== "") {
-        const commentText = document.createElement("span");
-        commentText.textContent = " - Comment: " + comment;
-        li.appendChild(commentText);
-    }
-};
-
-li.appendChild(commentButton);
