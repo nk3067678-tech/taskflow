@@ -1,4 +1,3 @@
-<
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +17,76 @@
     <ul id="taskList"></ul>
 
     <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function displayTasks() {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            tasks.forEach(function (task, index) {
+
+                const li = document.createElement("li");
+                li.textContent = task.text;
+
+                if (task.color) {
+                    li.style.backgroundColor = "lightblue";
+                }
+
+                // Color button
+                const colorButton = document.createElement("button");
+                colorButton.textContent = "Color";
+
+                colorButton.onclick = function () {
+                    task.color = true;
+                    li.style.backgroundColor = "lightblue";
+                    saveTasks();
+                };
+
+                li.appendChild(colorButton);
+
+                // Comment button
+                const commentButton = document.createElement("button");
+                commentButton.textContent = "Comment";
+
+                commentButton.onclick = function () {
+                    const comment = prompt("Enter your comment:");
+
+                    if (comment !== null && comment.trim() !== "") {
+                        task.comment = comment;
+                        saveTasks();
+                        displayTasks();
+                    }
+                };
+
+                li.appendChild(commentButton);
+
+                // Show saved comment
+                if (task.comment) {
+                    const commentText = document.createElement("span");
+                    commentText.textContent = " - Comment: " + task.comment;
+                    li.appendChild(commentText);
+                }
+
+                // Delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+
+                deleteButton.onclick = function () {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                    displayTasks();
+                };
+
+                li.appendChild(deleteButton);
+
+                taskList.appendChild(li);
+            });
+        }
+
         function addTask() {
             const input = document.getElementById("taskInput");
             const taskText = input.value.trim();
@@ -26,49 +95,19 @@
                 return;
             }
 
-            const li = document.createElement("li");
-            li.textContent = taskText;
+            tasks.push({
+                text: taskText,
+                color: false,
+                comment: ""
+            });
 
-            // Color button
-            const colorButton = document.createElement("button");
-            colorButton.textContent = "Color";
-
-            colorButton.onclick = function () {
-                li.style.backgroundColor = "lightblue";
-            };
-
-            li.appendChild(colorButton);
-
-            // Comment button
-            const commentButton = document.createElement("button");
-            commentButton.textContent = "Comment";
-
-            commentButton.onclick = function () {
-                const comment = prompt("Enter your comment:");
-
-                if (comment !== null && comment.trim() !== "") {
-                    const commentText = document.createElement("span");
-                    commentText.textContent = " - Comment: " + comment;
-                    li.appendChild(commentText);
-                }
-            };
-
-            li.appendChild(commentButton);
-
-            // Delete button
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "Delete";
-
-            deleteButton.onclick = function () {
-                li.remove();
-            };
-
-            li.appendChild(deleteButton);
-
-            document.getElementById("taskList").appendChild(li);
+            saveTasks();
+            displayTasks();
 
             input.value = "";
         }
+
+        displayTasks();
     </script>
 
 </body>
